@@ -1,0 +1,768 @@
+@import "tailwindcss";
+
+/* Self-hosted so the site renders correctly offline. Variable font, 200–800.
+   Bricolage Grotesque is SIL Open Font License 1.1. */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./assets/fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./assets/fonts/bricolage-grotesque-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+  /* KIJKIPTV — bright, friendly, unmistakably Dutch light-mode palette. */
+  --color-ink: #0b2b2b; /* headings, high-contrast text */
+  --color-mist: #effbf6; /* alternate section wash — fresh mint tint */
+  --color-surface: #ffffff; /* card/surface white */
+  --color-tint: #effbf6; /* alternate section wash — fresh mint tint (alias of mist) */
+  --color-tint-sky: #e7f4fc; /* secondary wash — cooler, for sections that want a sky lean */
+  --color-teal: #00b894; /* primary emerald — fills, borders, display type */
+  --color-teal-mid: #049d80; /* richer mid-emerald — deeper gradient stops, mid-weight fills */
+  --color-teal-deep: #067a63; /* accessible emerald for text on white */
+  --color-sky: #0ea5e9; /* accent sky */
+  --color-sky-deep: #0369a1; /* accessible sky for text on white */
+  --color-anchor: #052e2b; /* deepest anchor tone — climax bands, footer-adjacent weight */
+  --color-coral: #ff8a3d; /* warm Dutch-orange pop — used sparingly, CTA-adjacent accents only */
+  --color-coral-deep: #d9600f; /* accessible/deep orange — text, deep shadow stops */
+  --color-muted: #4c6663; /* body copy */
+  --color-border: #ddefe8; /* hairline border */
+  --color-wa: #25d366;
+
+  --font-sans: "Bricolage Grotesque", -apple-system, system-ui, "Segoe UI",
+    Roboto, "Helvetica Neue", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-mist);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Production runs body copy at medium, not regular. */
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  /* Emerald → sky rule under every section heading — the brand gradient. */
+  .rule-tri {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rule-tri span {
+    height: 4px;
+    width: 64px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-teal) 0%, var(--color-sky) 100%);
+  }
+
+  .card-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px -18px rgba(6, 122, 99, 0.28);
+  }
+  /* Tactile press — every tile/card built on `.card-lift` gets a real,
+     fast active-state squash instead of only a hover lift, so the app
+     surface feels responsive to touch, not just to a mouse. */
+  .card-lift:active {
+    transform: scale(0.97) translateY(0);
+    box-shadow: 0 8px 20px -14px rgba(6, 122, 99, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .shadow-soft {
+    box-shadow: 0 10px 30px -14px rgba(11, 43, 43, 0.14);
+  }
+  .shadow-card {
+    box-shadow: 0 16px 38px -16px rgba(6, 122, 99, 0.32);
+  }
+
+  /* Full-bleed brand gradient band, the signature colour field. Alternates
+     with white sections so the page has rhythm and the glass has a home.
+     Intensity is deliberately varied — .band-teal / .band-coral carry the
+     mid-weight of the page, .band-deep is reserved for the one or two
+     moments that should read as the climax. */
+  .band-teal {
+    background: radial-gradient(130% 150% at 12% -12%, #1eeac0 0%, #00b894 38%, #049d80 68%, #0369a1 100%);
+  }
+  .band-coral {
+    background: radial-gradient(130% 155% at 85% -12%, #2ad6e8 0%, #0ea5e9 42%, #049d80 72%, #067a63 100%);
+  }
+  /* Deepest, most saturated band — the arc's high point. Use sparingly. */
+  .band-deep {
+    background: radial-gradient(135% 160% at 20% -15%, #049d80 0%, #067a63 38%, #052e2b 78%, #04201f 100%);
+  }
+
+  /* Low-opacity grain, layered above colour bands for texture without noise assets. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 180px 180px;
+  }
+
+  /* Soft blob shapes bleeding off section edges. */
+  .blob {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Glass button system
+   One shared control for every CTA on the page. Variants carry their own
+   tinted fill + coloured shadow; size controls padding/type scale. Warm
+   orange is reserved for `--primary`, the conversion colour — everything
+   else on the site routes through emerald / sky.
+   ------------------------------------------------------------------- */
+.glass-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  isolation: isolate;
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 12px 26px -12px var(--glass-shadow, rgba(11, 43, 43, 0.3));
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, filter 0.2s ease;
+}
+/* Gradient hairline border — brighter top-left, dimmer bottom-right. A flat
+   1px solid border is what makes glass look cheap; painting it as a masked
+   gradient ring is what sells the material. */
+.glass-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.22) 45%,
+    rgba(11, 43, 43, 0.22) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Soft elongated specular sheen across the upper third, plus the hover fill
+   highlight — both live on the same overlay so hover only has to fade it in
+   brighter, never introduce a new layer. */
+.glass-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.1) 22%,
+    rgba(255, 255, 255, 0) 42%
+  );
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.glass-btn:hover::after {
+  opacity: 1;
+}
+.glass-btn:active::after {
+  opacity: 0.4;
+}
+.glass-btn > * {
+  position: relative;
+  z-index: 2;
+}
+.glass-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06) saturate(1.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 18px 34px -14px var(--glass-shadow, rgba(11, 43, 43, 0.35));
+}
+.glass-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.97);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 18px -10px var(--glass-shadow, rgba(11, 43, 43, 0.3));
+}
+.glass-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 6px var(--glass-ring, var(--color-teal-deep)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.glass-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.glass-btn--sm {
+  padding: 0.5rem 1.1rem;
+  font-size: 13px;
+}
+.glass-btn--md {
+  padding: 0.85rem 1.6rem;
+  font-size: 15px;
+}
+.glass-btn--lg {
+  padding: 1.05rem 2rem;
+  font-size: 15px;
+}
+
+/* The conversion colour — warm Dutch orange, reserved for primary order CTAs.
+   Fully opaque: the earlier ~0.9 alpha fill let the white page bleed through
+   the backdrop blur and washed the button out to a pale, near-disabled tint.
+   This is the order CTA — it has to read as the most confident thing in the
+   fold, so the fill is solid and the shadow/ring are pushed to match. */
+.glass-btn--primary {
+  background: linear-gradient(135deg, #ff9a4d 0%, #ff7a1f 52%, #dd570a 100%);
+  color: #ffffff;
+  font-weight: 900;
+  --glass-shadow: rgba(216, 84, 10, 0.58);
+  --glass-ring: #c94e08;
+}
+.glass-btn--primary:hover {
+  background: linear-gradient(135deg, #ffa860 0%, #ff8330 52%, #e2600f 100%);
+}
+/* Everything else — emerald → sky, the brand gradient. */
+.glass-btn--secondary {
+  background: linear-gradient(135deg, rgba(20, 220, 185, 0.92) 0%, rgba(0, 184, 148, 0.88) 55%, rgba(6, 122, 99, 0.9) 100%);
+  color: #ffffff;
+  --glass-shadow: rgba(0, 184, 148, 0.42);
+  --glass-ring: #067a63;
+}
+.glass-btn--ghost {
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--color-teal-deep);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(11, 43, 43, 0.1);
+  --glass-shadow: rgba(6, 122, 99, 0.16);
+  --glass-ring: #067a63;
+}
+.glass-btn--ghost-light {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border-top-color: rgba(255, 255, 255, 0.55);
+  border-bottom-color: rgba(11, 43, 43, 0.2);
+  --glass-shadow: rgba(3, 105, 161, 0.3);
+  --glass-ring: #ffffff;
+}
+.glass-btn--whatsapp {
+  background: linear-gradient(135deg, rgba(70, 224, 141, 0.92) 0%, rgba(37, 211, 102, 0.86) 100%);
+  color: #ffffff;
+  --glass-shadow: rgba(37, 211, 102, 0.45);
+  --glass-ring: #128c4a;
+}
+/* Solid-white "chip" CTA for use on top of a coloured gradient card, where a
+   translucent fill would not read with enough contrast against busy content. */
+.glass-btn--invert {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-ink);
+  border-top-color: rgba(255, 255, 255, 0.98);
+  border-bottom-color: rgba(11, 43, 43, 0.12);
+  --glass-shadow: rgba(6, 122, 99, 0.26);
+  --glass-ring: #067a63;
+}
+.glass-btn--invert:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-btn {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .glass-btn--primary {
+    background: #ff8a3d;
+  }
+  .glass-btn--secondary {
+    background: #00b894;
+  }
+  .glass-btn--ghost {
+    background: #ffffff;
+  }
+  .glass-btn--ghost-light {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-teal-deep);
+  }
+  .glass-btn--whatsapp {
+    background: #25d366;
+  }
+  .glass-btn--invert {
+    background: #ffffff;
+  }
+}
+
+/* Frosted glass panels — mobile nav, order modal, aside cards, pricing cards
+   living on a colour band. Always pair with a gradient/photo layer behind.
+   Same recipe as `.glass-btn`: gradient hairline border (masked ::before) so
+   it never reads as a flat 1px line, plus a faint specular sheen (::after)
+   across the upper third. Blur stays in the 8–16px band — these sit on
+   cards/panels, never a full-bleed element. */
+.glass-panel,
+.glass-panel-light {
+  position: relative;
+  isolation: isolate;
+}
+.glass-panel::before,
+.glass-panel-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: 1;
+}
+.glass-panel::after,
+.glass-panel-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+.glass-panel > *,
+.glass-panel-light > * {
+  position: relative;
+  z-index: 2;
+}
+.glass-panel {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid transparent;
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 18px 40px -18px rgba(3, 60, 60, 0.4);
+}
+.glass-panel::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(11, 43, 43, 0.2) 100%
+  );
+}
+.glass-panel::after {
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%);
+}
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid transparent;
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 16px 36px -18px rgba(6, 122, 99, 0.22);
+}
+.glass-panel-light::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.55) 45%,
+    rgba(6, 122, 99, 0.22) 100%
+  );
+}
+.glass-panel-light::after {
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 34%);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-panel {
+    background: rgba(6, 70, 70, 0.86);
+  }
+  .glass-panel-light {
+    background: #ffffff;
+  }
+}
+
+/* Horizontal snap rails — no scrollbar jank on phones. */
+.rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: start;
+}
+
+/* Trailing edge fade on phone, where a `.rail` still scrolls horizontally
+   (it stops applying itself once `sm:overflow-visible` + `sm:flex-wrap`
+   kicks a row into a wrapped, non-scrolling layout). Without this a chip or
+   card sitting across the viewport edge just looks clipped, like a bug —
+   the fade makes "there is more, swipe" legible instead. Right edge only:
+   the left edge starts flush with the section's own padding, never cut. */
+@media (max-width: 639.98px) {
+  .rail {
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+  }
+}
+
+/* Sticky mobile CTA bar clears the safe area on notch phones. */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ---------------------------------------------------------------------
+   Channel marquee — two rows, opposite directions, seamless loop.
+   Track is duplicated once in JSX; the animation just slides it -50%.
+   Only the moving track gets will-change, never the whole section.
+   ------------------------------------------------------------------- */
+.marquee-viewport {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-track--left {
+  animation: marqueeLeft 42s linear infinite;
+}
+.marquee-track--right {
+  animation: marqueeRight 38s linear infinite;
+}
+@keyframes marqueeLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marqueeRight {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+/* Variable-distance variant — the Channels strips repeat their list N times
+   (N computed from list length so a short list, e.g. 6 sport tiles, still
+   fills a wide viewport without a gap at the seam) rather than always
+   assuming two copies, so the travel distance is a custom property instead
+   of a hardcoded -50%. */
+.marquee-track--left-n {
+  animation-name: marqueeLeftN;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.marquee-track--right-n {
+  animation-name: marqueeRightN;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes marqueeLeftN {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--mq-dist, -50%));
+  }
+}
+@keyframes marqueeRightN {
+  from {
+    transform: translateX(var(--mq-dist, -50%));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.marquee-viewport:hover .marquee-track,
+.marquee-viewport:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------------------
+   Vertical drift columns — the hero's "now playing" device panel. Same
+   contract as the horizontal marquee: translateY only, will-change on the
+   track alone, pause on hover/focus, mask-fade top and bottom so tiles ease
+   in and out rather than clipping hard.
+   ------------------------------------------------------------------- */
+.vmarquee-viewport {
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+@media (min-width: 640px) {
+  .vmarquee-viewport {
+    height: 340px;
+  }
+}
+.vmarquee-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  will-change: transform;
+}
+.vmarquee-track--up {
+  animation: vmarqueeUp linear infinite;
+}
+.vmarquee-track--down {
+  animation: vmarqueeDown linear infinite;
+}
+@keyframes vmarqueeUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes vmarqueeDown {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.vmarquee-viewport:hover .vmarquee-track,
+.vmarquee-viewport:focus-within .vmarquee-track {
+  animation-play-state: paused;
+}
+
+/* The hero device panel renders both an animated and a static version; only
+   one is ever visible. Default (motion allowed): animated shows, static is
+   removed from flow. prefers-reduced-motion flips which one is on screen. */
+.hero-panel-static {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel-animated {
+    display: none;
+  }
+  .hero-panel-static {
+    display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn,
+  .card-lift {
+    transition: none !important;
+  }
+  .glass-btn:hover,
+  .card-lift:hover {
+    transform: none !important;
+    filter: none !important;
+  }
+  .marquee-track--left,
+  .marquee-track--right,
+  .marquee-track--left-n,
+  .marquee-track--right-n,
+  .vmarquee-track--up,
+  .vmarquee-track--down {
+    animation: none !important;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .marquee-viewport .marquee-track {
+    width: auto;
+  }
+  .marquee-viewport .marquee-track > * {
+    scroll-snap-align: start;
+  }
+  /* The track is duplicated for the seamless loop; with motion off there is
+     no loop, so the second copy is just dead weight — hide it. */
+  .marquee-viewport .marquee-track > *:nth-child(n + 17) {
+    display: none;
+  }
+  .logo-sparkle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* ---------------------------------------------------------------------
+   Pricing cards — side-by-side grid, equal height. A real hover response so
+   the row of three reads as tappable app surface, not a static price sheet:
+   the whole card lifts, and the showcase/plain cards deepen their own shadow
+   in their own colour. Transform + shadow only, gated under reduced motion
+   below.
+   ------------------------------------------------------------------- */
+.pack-card {
+  transition: transform 0.25s ease;
+}
+.pack-card:hover {
+  transform: translateY(-6px);
+}
+.pack-card--best > div {
+  transition: box-shadow 0.25s ease;
+}
+.pack-card--best:hover > div {
+  box-shadow: 0 30px 60px -22px rgba(6, 122, 99, 0.5);
+}
+.pack-card--plain {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.pack-card--plain:hover {
+  border-color: var(--color-teal);
+  box-shadow: 0 26px 52px -22px rgba(6, 122, 99, 0.3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pack-card,
+  .pack-card--best > div,
+  .pack-card--plain {
+    transition: none !important;
+  }
+  .pack-card:hover,
+  .pack-card--plain:hover {
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Premium VIP plan card — the pricing showpiece. Both loops are
+   transform-only, gated off entirely under reduced motion, and only ever
+   mounted while `isVip` is true (Pricing.tsx), so they never run otherwise.
+   ------------------------------------------------------------------- */
+.vip-rim {
+  inset: -2px;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(from 0deg, #17d6ac, #0ea5e9, #ff8a3d, #17d6ac);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: vipRimSpin 6s linear infinite;
+}
+@keyframes vipRimSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.vip-sweep {
+  position: absolute;
+  inset: -20% -10%;
+  width: 45%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.32) 50%, transparent 100%);
+  transform: translateX(-160%) skewX(-16deg);
+  animation: vipSweep 3.6s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+@keyframes vipSweep {
+  0% {
+    transform: translateX(-160%) skewX(-16deg);
+  }
+  55%,
+  100% {
+    transform: translateX(260%) skewX(-16deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vip-rim,
+  .vip-sweep {
+    animation: none !important;
+  }
+}
+
+/* Logo sparkles — restrained idle twinkle, transform/opacity only, staggered
+   so the two sparkles never pulse in lockstep. Disabled under reduced motion
+   in the block above. */
+.logo-sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logoTwinkle 2.8s ease-in-out infinite;
+}
+.logo-sparkle--b {
+  animation-delay: 1.15s;
+}
+@keyframes logoTwinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.82);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #effbf6;
+}
+::-webkit-scrollbar-thumb {
+  background: #9fe3cf;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-teal);
+}

@@ -2,11 +2,8 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CONTACT } from '../data/iptvData';
 import { GlassButton, WhatsAppGlyph } from './ui';
-import { useLinkProps } from '../router';
-import { PACKS_PATH } from '../routes';
 
 export const FinalCta: React.FC = () => {
-  const packsLink = useLinkProps(PACKS_PATH);
 
   return (
   <section id="final-cta" className="band-teal grain relative overflow-hidden py-12 sm:py-20">
@@ -25,7 +22,7 @@ export const FinalCta: React.FC = () => {
       </p>
 
       <div className="mt-8 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-        <GlassButton variant="primary" size="lg" {...packsLink}>
+        <GlassButton variant="primary" size="lg" href="#pricing">
           <span aria-hidden="true">⚡</span> Bekijk prijzen <ArrowRight className="h-4 w-4" />
         </GlassButton>
         <GlassButton

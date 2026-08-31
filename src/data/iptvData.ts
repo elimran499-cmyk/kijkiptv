@@ -383,13 +383,12 @@ export const FAQ_ITEMS: FAQItem[] = [
 ];
 
 export const NAV_LINKS = [
-  { label: 'IPTV Kopen', href: '/' },
-  { label: 'Zenders', href: '/zenders' },
-  { label: 'Films & Series', href: '/films-en-series' },
-  { label: 'IPTV Abonnement', href: '/pakketten' },
-  { label: 'Installatiegids', href: '/hoe-werkt-het' },
-  { label: 'Nieuws', href: '/reviews' },
-  { label: 'FAQ', href: '/faq' },
+  { label: 'IPTV Kopen', href: '#top' },
+  { label: 'IPTV Abonnement', href: '#pricing' },
+  { label: 'Zenders', href: '#channels' },
+  { label: 'Films & series', href: '#films' },
+  { label: 'Installatiegids', href: '#how' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 export const FOOTER_PAGES = [

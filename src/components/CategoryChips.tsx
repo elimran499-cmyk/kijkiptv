@@ -1,6 +1,5 @@
 import React from 'react';
 import { Baby, Clapperboard, Film, Sparkles, Trophy } from 'lucide-react';
-import { Link } from '../router';
 
 /**
  * Streaming-app filter bar — the first structural signal that this is an app
@@ -21,14 +20,14 @@ export const CategoryChips: React.FC = () => (
   <div className="relative bg-mist pb-2 pt-6 sm:pt-8">
     <div className="rail mx-auto max-w-[1180px] gap-2.5 px-5 sm:flex-wrap sm:justify-center sm:overflow-visible">
       {CATEGORIES.map((cat) => (
-        <Link
+        <a
           key={cat.label}
-          to={cat.to}
+          href="#top"
           className="glass-panel-light flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-[13.5px] font-bold text-teal-deep transition-transform duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
         >
           {cat.icon}
           {cat.label}
-        </Link>
+        </a>
       ))}
     </div>
   </div>

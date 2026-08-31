@@ -2,8 +2,6 @@ import React, { useRef } from 'react';
 import { ArrowRight, Flag, Lock, Star, Zap } from 'lucide-react';
 import { BENEFITS } from '../data/iptvData';
 import { GlassButton, RailHeader, TealPill, WhatsAppGlyph } from './ui';
-import { useLinkProps } from '../router';
-import { PACKS_PATH } from '../routes';
 
 const PILLS = [
   { label: 'Veilige betaling', icon: <Lock className="h-3.5 w-3.5" /> },
@@ -15,7 +13,6 @@ const PILLS = [
 
 export const Benefits: React.FC = () => {
   const railRef = useRef<HTMLDivElement>(null);
-  const packsLink = useLinkProps(PACKS_PATH);
 
   return (
     <section id="voordelen" className="bg-mist py-12 sm:py-20">
@@ -66,7 +63,7 @@ export const Benefits: React.FC = () => {
       <div className="mx-auto mt-10 max-w-3xl px-5 text-center">
         <p className="text-[14px] leading-relaxed text-muted">
           Met ons{' '}
-          <a {...packsLink} className="font-bold text-teal-deep underline">
+          <a href="#pricing" className="font-bold text-teal-deep underline">
             IPTV Abonnement
           </a>{' '}
           speciaal voor <strong className="font-bold text-ink">IPTV Nederland</strong>, geniet je
@@ -79,7 +76,7 @@ export const Benefits: React.FC = () => {
       </div>
 
       <div className="mt-8 text-center">
-        <GlassButton variant="primary" size="lg" {...packsLink} fullWidthOnMobile={false}>
+        <GlassButton variant="primary" size="lg" href="#pricing" fullWidthOnMobile={false}>
           <ArrowRight className="h-4 w-4" />
           Vandaag beginnen — bekijk tarieven
         </GlassButton>

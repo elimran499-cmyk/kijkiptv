@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Menu, X, Zap } from 'lucide-react';
 import { CONTACT, NAV_LINKS } from '../data/iptvData';
 import { GlassButton, Logo, LogoGlyph, WhatsAppGlyph } from './ui';
-import { Link } from '../router';
 
 interface NavbarProps {
   onOpenOrderModal: (planId?: string) => void;
@@ -57,12 +56,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
         <ul className="flex items-center gap-7">
           {NAV_LINKS.map((link) => (
             <li key={link.label}>
-              <Link
-                to={link.href}
+              <a href="#pricing"
                 className="text-[15px] font-semibold text-ink transition-colors hover:text-teal-deep"
               >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -128,13 +126,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
       </div>
 
       <div className={`${floatBase} left-1/2 -translate-x-1/2 ${scrolled ? 'pointer-events-auto translate-y-0 translate-x-[-50%] opacity-100' : 'pointer-events-none -translate-y-3 translate-x-[-50%] opacity-0'}`}>
-        <Link
-          to="/"
+        <a href="#top"
           aria-label="KijkIPTV — home"
           className="flex h-[46px] w-[46px] items-center justify-center rounded-2xl bg-[#0B2B2B] shadow-[0_12px_26px_-8px_rgba(6,122,99,0.55)] ring-1 ring-white/10"
         >
           <LogoGlyph className="h-[26px] w-[26px]" />
-        </Link>
+        </a>
       </div>
 
       <div className={`${floatBase} right-3 ${floatVisible}`}>
@@ -191,13 +188,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
               className={open ? 'animate-fadeIn' : ''}
               style={open ? { animationDelay: `${i * 40}ms`, animationFillMode: 'backwards' } : undefined}
             >
-              <Link
-                to={link.href}
-                onNavigate={() => setOpen(false)}
+              <a href="#pricing" onClick={() => setOpen(false)}
                 className="flex min-h-[44px] items-center border-b border-white/15 py-3 text-[17px] font-bold text-white transition-colors hover:text-white/70"
               >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>

@@ -4,55 +4,51 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { CategoryChips } from './components/CategoryChips';
 import { IntroSeo } from './components/IntroSeo';
+import { Channels } from './components/Channels';
+import { FilmsSeries } from './components/FilmsSeries';
+import { Pricing } from './components/Pricing';
+import { AppCompat } from './components/AppCompat';
+import { Benefits } from './components/Benefits';
+import { BuySteps } from './components/BuySteps';
+import { HowItWorks } from './components/HowItWorks';
+import { Comparison } from './components/Comparison';
+import { Football } from './components/Football';
+import { Reviews } from './components/Reviews';
+import { FAQ } from './components/FAQ';
 import { FinalCta } from './components/FinalCta';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { PageHeadingProvider, RouterProvider, useDocumentMeta, useRouter } from './router';
-import { findRoute, PACKS_PATH, HomeIndex } from './routes';
 
-const Page: React.FC = () => {
-  const { path, navigate } = useRouter();
-  const route = findRoute(path);
+export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState('plan-12m');
 
-  useDocumentMeta({ title: route.title, description: route.description, path: route.path });
-
-  /* "Kies pakket" from anywhere but the packs page should take you to the
-     packs page to choose first — the user asked for exactly that. Once you're
-     already on /pakketten the same handler opens the order modal. */
   const handleOpenOrderModal = (planId?: string) => {
     if (planId) setSelectedPlanId(planId);
-    if (route.path !== PACKS_PATH) {
-      navigate(PACKS_PATH);
-      return;
-    }
     setModalOpen(true);
   };
 
-  const isHome = route.path === '/';
-
   return (
     <div className="min-h-screen font-sans">
-      {/* Plays on a real page load, not on client-side route changes — the
-          router never remounts this. */}
       <Intro />
       <Navbar onOpenOrderModal={handleOpenOrderModal} />
 
       <main className="pb-24 xl:pb-0">
-        {isHome ? (
-          <>
-            <Hero onOpenOrderModal={handleOpenOrderModal} />
-            <CategoryChips />
-            <IntroSeo />
-            <HomeIndex />
-          </>
-        ) : (
-          /* On a section page that section's heading becomes the page's h1;
-             on home the hero already owns it. */
-          <PageHeadingProvider value>{route.render?.()}</PageHeadingProvider>
-        )}
+        <Hero onOpenOrderModal={handleOpenOrderModal} />
+        <CategoryChips />
+        <IntroSeo />
+        <Channels />
+        <FilmsSeries />
+        <Pricing onOpenOrderModal={handleOpenOrderModal} />
+        <AppCompat />
+        <Benefits />
+        <BuySteps />
+        <HowItWorks />
+        <Comparison />
+        <Football />
+        <Reviews />
+        <FAQ />
         <FinalCta />
       </main>
 
@@ -65,13 +61,5 @@ const Page: React.FC = () => {
         initialPlanId={selectedPlanId}
       />
     </div>
-  );
-};
-
-export default function App() {
-  return (
-    <RouterProvider>
-      <Page />
-    </RouterProvider>
   );
 }

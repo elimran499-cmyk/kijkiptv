@@ -1,8 +1,6 @@
 import React from 'react';
 import { Clock, Link2, Lock, ShieldCheck, Star, Zap } from 'lucide-react';
 import { CONTACT, PAYMENT_ICONS, PAYMENT_ICONS_ALT } from '../data/iptvData';
-import { Link } from '../router';
-import { ROUTES } from '../routes';
 import { Logo, WhatsAppGlyph } from './ui';
 
 const LEGAL = ['Privacy', 'Terugbetaling', 'Voorwaarden', 'Disclaimer'];
@@ -37,14 +35,22 @@ export const Footer: React.FC = () => (
         <div>
           <h3 className="text-[13px] font-extrabold tracking-[0.12em] text-ink">PAGINA'S</h3>
           <ul className="mt-4 space-y-3">
-            {ROUTES.map((r) => (
-              <li key={r.path}>
-                <Link
-                  to={r.path}
+            {[
+              { label: 'Zenders', href: '#channels' },
+              { label: 'Films & series', href: '#films' },
+              { label: 'Pakketten', href: '#pricing' },
+              { label: 'Apparaten', href: '#apps' },
+              { label: 'Hoe werkt het', href: '#how' },
+              { label: 'Reviews', href: '#reviews' },
+              { label: 'FAQ', href: '#faq' },
+            ].map((r) => (
+              <li key={r.href}>
+                <a
+                  href={r.href}
                   className="text-[14px] font-semibold text-ink no-underline transition-colors hover:text-teal-deep"
                 >
                   {r.label}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

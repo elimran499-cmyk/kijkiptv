@@ -3,8 +3,6 @@ import { Tv } from 'lucide-react';
 import { useReducedMotion } from 'motion/react';
 import { SPORT_CHANNELS, TOTAL_CHANNELS, TV_CHANNELS, type NlChannel } from '../data/catalog';
 import { RailHeader, SectionHeading } from './ui';
-import { useRouter } from '../router';
-import { PACKS_PATH } from '../routes';
 
 /** One logo tile — every mark sits on the same deep-teal plate now (every
  *  remaining logo measures well above the readability floor on dark), so the
@@ -58,7 +56,9 @@ const repeatsFor = (listLength: number): number => {
 /** One scrolling strip. Reduced motion swaps the marquee for a static,
  *  wrapped grid of the same tiles rather than trying to freeze a track mid
  *  animation. */
-const Strip: React.FC<{ list: NlChannel[]; direction: 'left' | 'right' }> = ({
+/** Exported so the home page can reuse the same marquee mechanism for a
+ *  trimmed single-row channel preview, instead of re-implementing it. */
+export const Strip: React.FC<{ list: NlChannel[]; direction: 'left' | 'right' }> = ({
   list,
   direction,
 }) => {
@@ -99,8 +99,8 @@ const Strip: React.FC<{ list: NlChannel[]; direction: 'left' | 'right' }> = ({
 export const Channels: React.FC = () => {
   // Every strip's "Alles bekijken" points at the pricing page, since the full
   // catalogue only unlocks once a pack is chosen.
-  const { navigate } = useRouter();
-  const goToPricing = () => navigate(PACKS_PATH);
+  const goToPricing = () =>
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
   <section id="channels" className="band-teal grain relative overflow-hidden py-12 sm:py-20">

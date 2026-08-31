@@ -2,24 +2,22 @@ import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { CONTACT, FAQ_ITEMS } from '../data/iptvData';
 import { Check, GlassButton, WhatsAppGlyph } from './ui';
-import { usePageHeadingTag } from '../router';
 
 export const FAQ: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>(null);
-  const Heading = usePageHeadingTag();
 
   return (
     <section id="faq" className="bg-mist py-12 sm:py-20">
       <div className="mx-auto max-w-[1180px] px-5">
         <div className="text-center">
-          <Heading className="text-[clamp(1.75rem,5vw,2.625rem)] font-extrabold leading-tight">
+          <h2 className="text-[clamp(1.75rem,5vw,2.625rem)] font-extrabold leading-tight">
             <span className="text-ink underline decoration-2 underline-offset-4">FAQ</span>{' '}
             <span className="text-ink">—</span>{' '}
             <span className="bg-gradient-to-r from-teal to-sky-deep bg-clip-text text-transparent">
               IPTV Abonnement
             </span>{' '}
             <span className="text-ink">(IPTV Nederland)</span>
-          </Heading>
+          </h2>
           <p className="mx-auto mt-5 max-w-3xl text-[15px] text-muted">
             Alles over activering, installatie, compatibiliteit en support van onze{' '}
             <strong className="font-bold text-ink">premium IPTV</strong>.

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { PAYMENT_ICONS, PAYMENT_ICONS_ALT } from '../data/iptvData';
-import { Link, usePageHeadingTag } from '../router';
 
 /**
  * KIJKIPTV brand mark. Inline SVG (not a raster asset) so it inherits the
@@ -16,8 +15,7 @@ export const KIJK_MARK_D =
   'M50.64 0.0L50.21 4.96L50.42 8.84L50.86 9.7L56.67 14.65L57.1 15.08L56.89 15.3L53.66 14.87L48.27 14.87L45.9 16.81L42.02 21.55L42.02 14.01L39.65 12.93L34.48 11.85L26.51 11.85L23.06 12.71L20.69 13.79L17.67 16.16L15.73 19.18L15.08 21.76L15.3 24.78L16.16 27.37L18.32 30.81L23.49 35.56L26.07 37.28L31.25 39.87L24.57 37.93L20.26 35.99L15.08 32.75L10.99 28.66L8.84 23.92L8.4 20.26L9.27 15.73L11.85 10.99L14.44 8.4L16.59 6.9L19.61 5.39L25.0 3.88L27.8 3.45L34.69 3.45L41.59 4.53L45.68 5.6L50.42 0.22ZM32.75 24.13L38.14 25.64L45.68 29.09L50.21 32.32L53.66 36.42L55.38 41.16L55.6 43.96L55.16 46.76L53.01 51.72L49.56 55.6L45.9 57.97L43.31 59.04L36.2 60.55L29.09 60.55L23.49 59.47L18.75 57.97L13.36 64.0L13.79 59.26L13.79 55.81L13.36 54.73L11.64 52.79L6.9 48.92L15.52 49.13L16.81 48.48L18.1 47.19L21.98 42.45L22.2 43.96L21.76 49.78L24.35 51.07L29.52 52.15L37.49 52.15L40.94 51.29L44.82 49.13L47.19 46.76L48.7 43.31L48.92 40.73L47.84 36.63L45.68 33.19L42.24 29.74L37.93 26.72L32.75 24.35Z';
 
 export const Logo: React.FC<{ className?: string }> = ({ className = 'h-8 sm:h-9' }) => (
-  <Link
-    to="/"
+  <a href="#top"
     className="group flex shrink-0 items-center gap-2.5 no-underline"
     aria-label="KijkIPTV — home"
   >
@@ -35,7 +33,7 @@ export const Logo: React.FC<{ className?: string }> = ({ className = 'h-8 sm:h-9
       <span className="text-[19px] text-ink sm:text-[21px]">Kijk</span>
       <span className="text-[19px] font-semibold text-teal-deep sm:text-[21px]">IPTV</span>
     </span>
-  </Link>
+  </a>
 );
 
 /** Emerald → sky brand-gradient rule that sits under every section heading. */
@@ -99,8 +97,7 @@ export const RailHeader: React.FC<{
 }) => {
   // Hooks must run unconditionally, so this is always called — its result is
   // only used when `asPageHeading` is set.
-  const pageHeadingTag = usePageHeadingTag();
-  const Heading = asPageHeading ? pageHeadingTag : 'h3';
+  const Heading = asPageHeading ? 'h2' : 'h3';
 
   return (
   <div className={`mb-4 flex items-end justify-between gap-4 px-5 ${className}`}>
@@ -115,13 +112,13 @@ export const RailHeader: React.FC<{
         </p>
       )}
       <div className="mt-0.5 flex items-center gap-2">
-        <Heading
+        <h2
           className={`text-[clamp(1.25rem,3.4vw,1.7rem)] font-extrabold leading-tight ${
             light ? 'text-white' : 'text-ink'
           }`}
         >
           {title}
-        </Heading>
+        </h2>
         {count != null && (
           <span
             className={`inline-flex h-5 shrink-0 items-center rounded-full px-2 text-[11px] font-extrabold tabular-nums ${
@@ -156,16 +153,15 @@ interface SectionHeadingProps {
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({ children, light, sub }) => {
-  const Heading = usePageHeadingTag();
   return (
   <div className="text-center">
-    <Heading
+    <h2
       className={`text-[clamp(1.75rem,5vw,2.625rem)] font-extrabold leading-tight ${
         light ? 'text-white' : 'text-ink'
       }`}
     >
       {children}
-    </Heading>
+    </h2>
     <TriRule />
     {sub && (
       <p

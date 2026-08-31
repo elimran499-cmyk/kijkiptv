@@ -3,8 +3,6 @@ import { Play } from 'lucide-react';
 import { useReducedMotion } from 'motion/react';
 import { TOTAL_VOD, VOD_TITLES, type VodTitle } from '../data/catalog';
 import { RailHeader } from './ui';
-import { useRouter } from '../router';
-import { PACKS_PATH } from '../routes';
 
 /* 2024 releases get the "Nieuw" ribbon — a real streaming-app signal, not a
    decoration: it tells you which titles just landed. */
@@ -13,7 +11,9 @@ const NEW_IDS = new Set(['f1', 'f10', 'f13', 'f15']);
 /** One poster — 2:3, app-tile behaviour: rounded, lifts and scales on
  *  hover/tap, a play affordance, a "Nieuw" ribbon on the newest handful. No
  *  caption line beyond the title, per the standing rule. */
-const PosterTile: React.FC<{ title: VodTitle; className?: string }> = ({ title, className = '' }) => (
+/** Exported so the home page can reuse the same poster tile for its compact
+ *  preview row, instead of re-implementing it. */
+export const PosterTile: React.FC<{ title: VodTitle; className?: string }> = ({ title, className = '' }) => (
   <article
     className={`card-lift group relative aspect-[2/3] w-[128px] shrink-0 snap-start overflow-hidden rounded-[18px] bg-tint shadow-soft transition-transform duration-300 ease-out active:scale-[0.96] sm:w-[152px] ${className}`}
   >
@@ -97,7 +97,11 @@ const Row: React.FC<{ list: VodTitle[]; direction: 'left' | 'right' }> = ({ list
 
 export const FilmsSeries: React.FC = () => {
   const reduceMotion = useReducedMotion();
-  const { navigate } = useRouter();
+  // "Alles bekijken" scrolls to the pricing section — the full catalogue only
+  // unlocks once a pack is chosen.
+  const goToPricing = () =>
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  
 
   return (
     <section id="films" className="scroll-mt-20 bg-white py-12 sm:py-20">
@@ -105,7 +109,7 @@ export const FilmsSeries: React.FC = () => {
         asPageHeading
         kicker="On demand"
         title={`${TOTAL_VOD} films & series`}
-        onSeeAll={() => navigate(PACKS_PATH)}
+        onSeeAll={goToPricing}
         className="mx-auto max-w-[1180px]"
       />
 

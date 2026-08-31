@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import { REVIEWS } from '../data/iptvData';
 import { GlassButton, RailHeader, SectionHeading } from './ui';
-import { useLinkProps } from '../router';
-import { PACKS_PATH } from '../routes';
 
 const Stars: React.FC = () => (
   <span className="text-[15px] tracking-tight text-coral" aria-label="5 uit 5 sterren">
@@ -19,7 +17,6 @@ const RING_VARIANTS = [
 
 export const Reviews: React.FC = () => {
   const railRef = useRef<HTMLDivElement>(null);
-  const packsLink = useLinkProps(PACKS_PATH);
 
   return (
     <section id="reviews" className="band-teal grain relative overflow-hidden py-12 sm:py-20">
@@ -34,7 +31,7 @@ export const Reviews: React.FC = () => {
               Kwaliteit <strong className="font-bold text-white">HD/4K</strong>, directe activering
               en support <strong className="font-bold text-white">24/7</strong> — de{' '}
               <strong className="font-bold text-white">beste IPTV Nederland</strong> en{' '}
-              <a {...packsLink} className="font-bold text-white underline">
+              <a href="#pricing" className="font-bold text-white underline">
                 IPTV België
               </a>{' '}
               volgens onze klanten.
@@ -45,7 +42,7 @@ export const Reviews: React.FC = () => {
         </SectionHeading>
 
         <div className="mt-8">
-          <GlassButton variant="invert" size="lg" {...packsLink} fullWidthOnMobile={false}>
+          <GlassButton variant="invert" size="lg" href="#pricing" fullWidthOnMobile={false}>
             Bekijk onze aanbiedingen en prijzen
           </GlassButton>
         </div>

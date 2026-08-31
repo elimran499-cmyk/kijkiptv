@@ -13,7 +13,7 @@ import { GlassButton, PaymentRow, SectionHeading, WhatsAppGlyph } from './ui';
  * coloured band card, grain, and the spinning VIP rim. The other two packs
  * are plain hairline cards so the showcase still reads as the showcase. */
 
-const formatPrice = (val: number) => `€${val.toFixed(2).replace('.', ',')}`;
+export const formatPrice = (val: number) => `€${val.toFixed(2).replace('.', ',')}`;
 const waLink = (message: string) => `${CONTACT.whatsapp}?text=${encodeURIComponent(message)}`;
 
 /**

@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { COMPARISON_ROWS, WHY_CARDS } from '../data/iptvData';
 import { Check, Cross, TriRule, WhatsAppGlyph } from './ui';
-import { usePageHeadingTag } from '../router';
 
 const ROW_ICONS: Record<string, React.ReactNode> = {
   zap: <Zap className="h-4 w-4" />,
@@ -33,17 +32,16 @@ const WHY_ICONS = [
 ];
 
 export const Comparison: React.FC = () => {
-  const Heading = usePageHeadingTag();
   return (
   <section id="waarom" className="bg-mist py-12 sm:py-20">
     <div className="mx-auto max-w-[1180px] px-5">
       <div className="text-center">
-        <Heading className="text-[clamp(1.75rem,5vw,2.625rem)] font-extrabold leading-tight">
+        <h2 className="text-[clamp(1.75rem,5vw,2.625rem)] font-extrabold leading-tight">
           <span className="bg-gradient-to-r from-teal to-sky-deep bg-clip-text text-transparent">
             KijkIPTV
           </span>{' '}
           <span className="text-ink">— waarom ons kiezen?</span>
-        </Heading>
+        </h2>
         <TriRule />
       </div>
 

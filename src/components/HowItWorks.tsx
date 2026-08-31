@@ -1,12 +1,8 @@
 import React from 'react';
 import { HOW_IMAGE, HOW_IT_WORKS } from '../data/iptvData';
 import { Check, GlassButton, SectionHeading } from './ui';
-import { useLinkProps } from '../router';
-import { PACKS_PATH } from '../routes';
 
 export const HowItWorks: React.FC = () => {
-  const packsLink = useLinkProps(PACKS_PATH);
-  const faqLink = useLinkProps('/faq');
 
   return (
   <section id="how" className="band-teal grain relative overflow-hidden py-12 sm:py-20">
@@ -58,10 +54,10 @@ export const HowItWorks: React.FC = () => {
       </div>
 
       <div className="mt-12 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-        <GlassButton variant="invert" size="lg" {...packsLink}>
+        <GlassButton variant="invert" size="lg" href="#pricing">
           <span aria-hidden="true">⚡</span> Bekijk prijzen
         </GlassButton>
-        <GlassButton variant="ghost-light" size="lg" {...faqLink}>
+        <GlassButton variant="ghost-light" size="lg" href="#faq">
           <span aria-hidden="true">❓</span> FAQ
         </GlassButton>
       </div>

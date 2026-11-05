@@ -21,9 +21,9 @@ import type {
 } from '../types';
 
 export const CONTACT = {
-  phone: '+44 7832 486269',
+  phone: '+44 7449 708976',
   /** wa.me needs the number in E.164 with no spaces or leading plus. */
-  whatsapp: 'https://wa.me/447832486269',
+  whatsapp: 'https://wa.me/447449708976',
 };
 
 /** Shared feature list used by every single-screen plan. */
